@@ -13,7 +13,6 @@ class UserDetailsProvider {
     );
 
     if (response.statusCode == 200) {
-      print("Success");
       final resData = UserDetails.fromJson(jsonDecode(response.body));
       return resData;
     }

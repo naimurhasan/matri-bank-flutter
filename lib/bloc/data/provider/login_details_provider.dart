@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc_sample/bloc/data/model/account_details.dart';
+import 'package:flutter_bloc_sample/common/config.dart';
 import 'package:http/http.dart' as http;
 
 class LoginDetailsProvider {
-  final String BASE = "http://naimurhasan.pythonanywhere.com";
 
   /// Fetch the user details from given public URL
   Future<String> login(String phone, String password) async {
     final response = await http.post(
-      Uri.parse("$BASE/accounts/login/"),
+      Uri.parse("${Config.BASE_URL}/accounts/login/"),
       body: {
         "phone": phone,
         "password": password,
@@ -26,7 +26,7 @@ class LoginDetailsProvider {
   }
 
   Future<AccountDetails> getAccountDetails(String token) async {
-    final response = await http.get(Uri.parse("$BASE/accounts/"),
+    final response = await http.get(Uri.parse("${Config.BASE_URL}/accounts/"),
         headers: {'Authorization': 'token $token'});
 
     if (response.statusCode == 200) {

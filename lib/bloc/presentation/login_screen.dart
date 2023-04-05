@@ -15,13 +15,13 @@ class LoginScreen extends StatelessWidget {
       value: 'Naimur',
     ),
   });
+
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       if (state is LoginSuccess) {
         form.reset();
-      }else if(state is LoginError){
+      } else if (state is LoginError) {
         form.control('phone').value = state.phone;
         form.control('password').value = state.password;
       }
@@ -77,11 +77,12 @@ class LoginScreen extends StatelessWidget {
                             child: Text('Login'),
                             onPressed: () {
                               if (form.valid) {
-                                BlocProvider.of<LoginBloc>(context).add(
-                                    LoginButtonPressed(
-                                        phone: form.control('phone').value,
-                                        password:
-                                            form.control('password').value));
+                                BlocProvider.of<LoginBloc>(context)
+                                    .add(LoginButtonPressed(
+                                  phone: form.control('phone').value,
+                                  password: form.control('password').value,
+                                  context: context,
+                                ));
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter_bloc_sample/bloc/data/model/card_model.dart';
+
 AccountDetails accountDetailsFromMap(String str) =>
     AccountDetails.fromMap(json.decode(str));
 
@@ -16,6 +18,7 @@ class AccountDetails {
     required this.updatedAt,
     required this.balanceLastUpdate,
     this.photo,
+    required this.cards,
   });
 
   final int id;
@@ -27,6 +30,7 @@ class AccountDetails {
   final DateTime updatedAt;
   final DateTime balanceLastUpdate;
   final String? photo;
+  final List<AccountCard> cards;
 
   AccountDetails copyWith({
     int? id,
@@ -38,6 +42,7 @@ class AccountDetails {
     DateTime? updatedAt,
     DateTime? balanceLastUpdate,
     String? photo,
+    List<AccountCard>? card,
   }) =>
       AccountDetails(
         id: id ?? this.id,
@@ -49,6 +54,7 @@ class AccountDetails {
         updatedAt: updatedAt ?? this.updatedAt,
         balanceLastUpdate: balanceLastUpdate ?? this.balanceLastUpdate,
         photo: photo ?? this.photo,
+        cards: card ?? this.cards,
       );
 
   factory AccountDetails.fromMap(Map<String, dynamic> json) => AccountDetails(
@@ -61,6 +67,7 @@ class AccountDetails {
         updatedAt: DateTime.parse(json["updated_at"]),
         balanceLastUpdate: DateTime.parse(json["balance_last_update"]),
         photo: json["photo"],
+        cards: cardsFromMap(json['cards']),
       );
 
   Map<String, dynamic> toMap() => {

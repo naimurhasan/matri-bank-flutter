@@ -18,3 +18,9 @@ class AddNewCardEvent extends CardEvent {
         required this.cvv,
         required this.context});
 }
+
+class DeleteCardEvent extends CardEvent {
+  final AccountCard accountCard;
+  final BuildContext context;
+  DeleteCardEvent({required this.accountCard, required this.context});
+}

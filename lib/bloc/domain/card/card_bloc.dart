@@ -56,6 +56,30 @@ class CardBloc extends Bloc<CardEvent, CardState> {
             cvv: event.cvv);
         debugPrintStack(stackTrace: trace);
       }
+    }else if(event is DeleteCardEvent){
+      yield CardDeleting();
+      try{
+        CardRepository cardRepository = CardRepository();
+        await cardRepository.deleteCard(accountCard: event.accountCard);
+        final userBloc = BlocProvider.of<AccountBloc>(event.context);
+        AccountDetails accountDetails =
+        (userBloc.state as LoginSuccess).accountDetails;
+        accountDetails =
+            accountDetails.copyWith(cards: accountDetails.cards.where((element) => element.id != event.accountCard.id).toList());
+        userBloc.add(UpdateAccountDetails(accountDetails: accountDetails));
+        yield CardDeleted(event.accountCard);
+        Flushbar(
+          message: "Card deleted successfully",
+          duration: Duration(seconds: 3),
+        )..show(event.context);
+      } on SocketException catch (e, trace) {
+        yield CardDeleteError(message: "No Internet Connection");
+        debugPrintStack(stackTrace: trace);
+      } catch (e, trace) {
+        print("Exception while fetching user details: " + e.toString());
+        yield CardDeleteError(message: e.toString());
+        debugPrintStack(stackTrace: trace);
+      }
     }
   }
 }

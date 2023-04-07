@@ -35,5 +35,24 @@ class CardProvider{
     throw Exception('Not able to fetch the data: ' + response.body);
   }
 
+  Future<void> deleteCard({required AccountCard accountCard}) async {
+    final response = await http.delete(
+      Uri.parse("${Config.BASE_URL}/cards/${accountCard.id}/"),
+      headers: {'Authorization': 'token ${Config.token}'},
+    );
+    if (response.statusCode == 200) {
+      final resData = jsonDecode(response.body);
+      debugPrint("Response: " + resData.toString());
+      if (resData['status'] == 200) {
+        return;
+      }else if(resData['status'] == 400){
+        throw Exception("Invalid Card");
+      }else{
+        throw Exception("Please enter correct input.");
+      }
+    }
+    throw Exception('Not able to fetch the data: ' + response.body);
+  }
+
 
 }

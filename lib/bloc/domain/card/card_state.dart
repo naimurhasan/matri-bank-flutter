@@ -33,3 +33,17 @@ class CardAdded extends CardState {
   final AccountCard accountCard;
   const CardAdded({required this.accountCard});
 }
+
+class CardDeleting extends CardState {
+  const CardDeleting();
+}
+
+class CardDeleteError extends CardState {
+  final String message;
+  const CardDeleteError({this.message = "Error Deleting Card"});
+}
+
+class CardDeleted extends CardState {
+  final AccountCard accountCard;
+  const CardDeleted(this.accountCard);
+}

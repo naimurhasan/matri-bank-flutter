@@ -48,7 +48,7 @@ class AccountCard {
     cardNo: json["card_no"],
     validity: json["validity"],
     cvv: json["cvv"],
-    userId: json["user_id"],
+    userId: json["user_id"] ?? json["user"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );

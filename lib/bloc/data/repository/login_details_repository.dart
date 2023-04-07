@@ -8,6 +8,6 @@ class LoginDetailsRepository {
   Future<String> login(String phone, String password) async =>
       _loginDetailsProvider.login(phone, password);
 
-  Future<AccountDetails> getAccountDetails(String token) async =>
-      _loginDetailsProvider.getAccountDetails(token);
+  Future<AccountDetails> getAccountDetails() async =>
+      _loginDetailsProvider.getAccountDetails();
 }

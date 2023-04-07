@@ -18,7 +18,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+    return BlocBuilder<AccountBloc, LoginState>(builder: (context, state) {
       if (state is LoginSuccess) {
         form.reset();
       } else if (state is LoginError) {
@@ -77,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                             child: Text('Login'),
                             onPressed: () {
                               if (form.valid) {
-                                BlocProvider.of<LoginBloc>(context)
+                                BlocProvider.of<AccountBloc>(context)
                                     .add(LoginButtonPressed(
                                   phone: form.control('phone').value,
                                   password: form.control('password').value,

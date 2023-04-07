@@ -12,3 +12,8 @@ class LoginButtonPressed extends LoginEvent {
 }
 
 class LogoutButtonPressed extends LoginEvent {}
+
+class UpdateAccountDetails extends LoginEvent {
+  final AccountDetails accountDetails;
+  UpdateAccountDetails({required this.accountDetails});
+}

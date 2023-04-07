@@ -25,9 +25,9 @@ class LoginDetailsProvider {
     throw Exception('Not able to fetch the data: ' + response.body);
   }
 
-  Future<AccountDetails> getAccountDetails(String token) async {
+  Future<AccountDetails> getAccountDetails() async {
     final response = await http.get(Uri.parse("${Config.BASE_URL}/accounts/"),
-        headers: {'Authorization': 'token $token'});
+        headers: {'Authorization': 'token ${Config.token}'});
 
     if (response.statusCode == 200) {
       final resData = jsonDecode(response.body);

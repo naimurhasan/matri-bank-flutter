@@ -2,19 +2,17 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_sample/bloc/data/model/account_details.dart';
 import 'package:flutter_bloc_sample/bloc/data/repository/login_details_repository.dart';
-import 'package:flutter_bloc_sample/bloc/domain/account_details/account_details_bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter_bloc_sample/common/config.dart';
 
 part 'login_state.dart';
 part 'login_event.dart';
 
-class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(InitialLoginState());
-  String? token;
+class AccountBloc extends Bloc<LoginEvent, LoginState> {
+  AccountBloc() : super(InitialLoginState());
 
   @override
   Stream<LoginState> mapEventToState(
@@ -25,16 +23,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       try {
         LoginDetailsRepository loginDetailsRepository =
             LoginDetailsRepository();
-        token = await loginDetailsRepository.login(event.phone, event.password);
-        if (token == null) {
-          throw Exception("Token is null");
-        }
+        Config.token = await loginDetailsRepository.login(event.phone, event.password);
         AccountDetails accountDetails =
-            await loginDetailsRepository.getAccountDetails(token!);
+            await loginDetailsRepository.getAccountDetails();
 
         yield LoginSuccess(accountDetails);
-        final accountDetailsBloc = BlocProvider.of<AccountDetailsBloc>(event.context);
-        accountDetailsBloc.add(AccountDetailsLoaded(accountDetails: accountDetails));
+        ScaffoldMessenger.of(event.context).showSnackBar(SnackBar(content: Text("Login Success"), backgroundColor: Colors.green,));
       } on SocketException catch(e, trace){
         yield LoginError(message: "No Internet Connection", phone: event.phone, password: event.password);
         debugPrintStack(stackTrace: trace);
@@ -44,8 +38,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         debugPrintStack(stackTrace: trace);
       }
     }else if(event is LogoutButtonPressed){
-      token = null;
+      Config.token = "";
       yield InitialLoginState();
+    }else if(event is UpdateAccountDetails){
+      yield LoginSuccess(event.accountDetails);
     }
   }
 }

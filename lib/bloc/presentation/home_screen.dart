@@ -1,6 +1,8 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_sample/bloc/domain/login/login_bloc.dart';
+import 'package:flutter_bloc_sample/bloc/presentation/add_card_screen.dart';
 import 'package:flutter_bloc_sample/bloc/presentation/login_screen.dart';
 import 'package:flutter_bloc_sample/bloc/presentation/widgets/cards_carousel.dart';
 
@@ -16,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginBloc, LoginState>(
+    return BlocBuilder<AccountBloc, LoginState>(
       builder: (context, state) {
         if (state is LoginSuccess) {
           return Scaffold(
@@ -27,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 IconButton(
                   icon: Icon(Icons.logout),
                   onPressed: () {
-                    BlocProvider.of<LoginBloc>(context)
+                    BlocProvider.of<AccountBloc>(context)
                         .add(LogoutButtonPressed());
                   },
                 ),
@@ -53,21 +55,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(fontSize: 24),
                     ),
                     SizedBox(height: 16),
-                    Text(
-                      'Your cards',
-                      style: TextStyle(fontSize: 24),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Your cards',
+                            style: TextStyle(fontSize: 24),
+                          ),
+                        ),
+                        CircleAvatar(
+                          child: IconButton(onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => AddCardScreen())).then((value){
+                              if(value == true){
+                                Flushbar(
+                                  flushbarPosition: FlushbarPosition.BOTTOM,
+                                  message: "Card added successfully",
+                                )..show(context);
+                              }
+                            });
+                          }, icon: Icon(Icons.add),),
+                        )
+                      ],
                     ),
                     SizedBox(height: 16),
                     CardsCarousel(cards: state.accountDetails.cards),
                   ],
                 ),
               ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                // Navigate to transfer screen
-              },
-              child: Icon(Icons.send),
             ),
           );
         }

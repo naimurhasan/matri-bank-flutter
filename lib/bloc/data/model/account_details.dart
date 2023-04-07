@@ -42,7 +42,7 @@ class AccountDetails {
     DateTime? updatedAt,
     DateTime? balanceLastUpdate,
     String? photo,
-    List<AccountCard>? card,
+    List<AccountCard>? cards,
   }) =>
       AccountDetails(
         id: id ?? this.id,
@@ -54,7 +54,7 @@ class AccountDetails {
         updatedAt: updatedAt ?? this.updatedAt,
         balanceLastUpdate: balanceLastUpdate ?? this.balanceLastUpdate,
         photo: photo ?? this.photo,
-        cards: card ?? this.cards,
+        cards: cards ?? this.cards,
       );
 
   factory AccountDetails.fromMap(Map<String, dynamic> json) => AccountDetails(

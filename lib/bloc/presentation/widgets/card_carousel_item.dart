@@ -1,7 +1,9 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_sample/bloc/data/model/card_model.dart';
 import 'package:flutter_bloc_sample/bloc/domain/card/card_bloc.dart';
+import 'package:flutter_bloc_sample/bloc/presentation/add_card_screen.dart';
 
 class CardCarouselItem extends StatelessWidget {
   final AccountCard card;
@@ -39,15 +41,34 @@ class CardCarouselItem extends StatelessWidget {
                   ),
                   state is CardDeleting
                       ? CircularProgressIndicator()
-                      : Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                              icon: Icon(Icons.delete),
-                              onPressed: () {
-                                BlocProvider.of<CardBloc>(context).add(
-                                    DeleteCardEvent(
-                                        accountCard: card, context: context));
-                              })),
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            IconButton(
+                                icon: Icon(Icons.edit),
+                                onPressed: () {
+                                  // BlocProvider.of<CardBloc>(context).add(
+                                  //     DeleteCardEvent(
+                                  //         accountCard: card, context: context));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => CardAddEditScreen(editCard: card,))).then((value){
+                                    if(value == true){
+                                      Flushbar(
+                                        flushbarPosition: FlushbarPosition.BOTTOM,
+                                        message: "Card updated successfully",
+                                        duration: Duration(seconds: 2),
+                                      )..show(context);
+                                    }
+                                  });
+
+                                }),
+                            IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  BlocProvider.of<CardBloc>(context).add(
+                                      DeleteCardEvent(
+                                          accountCard: card, context: context));
+                                })
+                          ],),
                 ],
               ),
             ),

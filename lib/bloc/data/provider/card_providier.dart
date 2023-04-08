@@ -54,5 +54,32 @@ class CardProvider{
     throw Exception('Not able to fetch the data: ' + response.body);
   }
 
+  Future<void> updateCard(
+      {required AccountCard accountCard}) async {
+    final response = await http.put(
+      Uri.parse("${Config.BASE_URL}/cards/${accountCard.id}/"),
+      headers: {'Authorization': 'token ${Config.token}'},
+      body: {
+        "name": accountCard.name,
+        "card_no": accountCard.cardNo,
+        "validity": accountCard.validity,
+        "cvv": accountCard.cvv,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final resData = jsonDecode(response.body);
+      debugPrint("Response: " + resData.toString());
+      if (resData['status'] == 200) {
+        return;
+      }else if(resData['status'] == 400){
+        throw Exception("Invalid Card");
+      }else{
+        throw Exception("Please enter correct input.");
+      }
+    }
+    throw Exception('Not able to fetch the data: ' + response.body);
+  }
+
 
 }

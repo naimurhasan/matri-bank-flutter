@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,11 +85,11 @@ class LoginScreen extends StatelessWidget {
                                   context: context,
                                 ));
                               } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Invalid form'),
-                                  ),
-                                );
+                                Flushbar(
+                                  flushbarPosition: FlushbarPosition.BOTTOM,
+                                  message: "Invalid form",
+                                  duration: Duration(seconds: 2),
+                                )..show(context);
                               }
                             },
                           ),

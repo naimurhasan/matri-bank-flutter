@@ -65,11 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         CircleAvatar(
                           child: IconButton(onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (_) => AddCardScreen())).then((value){
+                            Navigator.push(context, MaterialPageRoute(builder: (_) => CardAddEditScreen())).then((value){
                               if(value == true){
                                 Flushbar(
                                   flushbarPosition: FlushbarPosition.BOTTOM,
                                   message: "Card added successfully",
+                                  duration: Duration(seconds: 2),
                                 )..show(context);
                               }
                             });

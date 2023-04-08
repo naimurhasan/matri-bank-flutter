@@ -8,4 +8,6 @@ class CardRepository {
       cardProvider.addCard(name: name, cardNo: cardNo, validity: validity, cvv: cvv);
   Future<void> deleteCard({required AccountCard accountCard}) async =>
       cardProvider.deleteCard(accountCard: accountCard);
+  Future<void> updateCard({required AccountCard accountCard}) async =>
+      cardProvider.updateCard(accountCard: accountCard);
 }

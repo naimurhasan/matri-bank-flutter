@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,7 +29,11 @@ class AccountBloc extends Bloc<LoginEvent, LoginState> {
             await loginDetailsRepository.getAccountDetails();
 
         yield LoginSuccess(accountDetails);
-        ScaffoldMessenger.of(event.context).showSnackBar(SnackBar(content: Text("Login Success"), backgroundColor: Colors.green,));
+        Flushbar(
+          flushbarPosition: FlushbarPosition.BOTTOM,
+          message: "Login Success",
+          duration: Duration(seconds: 2),
+        )..show(event.context);
       } on SocketException catch(e, trace){
         yield LoginError(message: "No Internet Connection", phone: event.phone, password: event.password);
         debugPrintStack(stackTrace: trace);

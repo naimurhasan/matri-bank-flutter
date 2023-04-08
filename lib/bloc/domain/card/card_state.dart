@@ -13,6 +13,7 @@ class AddingNewCard extends CardState {
   const AddingNewCard();
 }
 
+
 class CardAddError extends CardState {
   final String message;
   final String? name;
@@ -46,4 +47,18 @@ class CardDeleteError extends CardState {
 class CardDeleted extends CardState {
   final AccountCard accountCard;
   const CardDeleted(this.accountCard);
+}
+
+class CardUpdating extends CardState {
+  const CardUpdating();
+}
+
+class CardUpdateError extends CardState {
+  final String message;
+  const CardUpdateError({this.message = "Error Updating Card"});
+}
+
+class CardUpdated extends CardState {
+  final AccountCard accountCard;
+  const CardUpdated({required this.accountCard});
 }

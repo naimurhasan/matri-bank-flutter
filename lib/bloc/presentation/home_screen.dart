@@ -5,7 +5,7 @@ import 'package:flutter_bloc_sample/bloc/domain/login/login_bloc.dart';
 import 'package:flutter_bloc_sample/bloc/presentation/add_card_screen.dart';
 import 'package:flutter_bloc_sample/bloc/presentation/login_screen.dart';
 import 'package:flutter_bloc_sample/bloc/presentation/widgets/cards_carousel.dart';
-
+import 'dart:math' as math;
 class HomeScreen extends StatefulWidget {
   HomeScreen({
     Key? key,
@@ -83,6 +83,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+            ),
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton(
+                  onPressed: (){},
+                  child: Transform.rotate(
+                      angle: -math.pi / 4,
+                      child: Icon(Icons.send, size: 30,)),
+                ),
+                SizedBox(height: 6),
+                Text("Send Money"),
+                SizedBox(height: 6),
+              ],
             ),
           );
         }
